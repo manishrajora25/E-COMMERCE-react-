@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function trimContent(input) {
   return input.length > 50
-    ? input.split(" ").slice(0, 8).join(" ") + "..."
+    ? input.split(" ").slice(0, 3).join(" ") + "..."
     : input;
 }
 

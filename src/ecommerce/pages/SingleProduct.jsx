@@ -1,34 +1,21 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import  {EcomContext } from "../components/UseContext";
-
+import { EcomContext } from "../components/UseContext";
 
 function SingleProduct() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [product, setProduct] = useState({});
   const { handleAddToCart, cart } = useContext(EcomContext);
   const navigate = useNavigate();
   const location = useLocation();
 
-
-  const token=localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const isloggedIn = !!token;
-  console.log(isloggedIn);
-  
+
   useEffect(() => {
-    
-      fetchSingleData();
-    
+    fetchSingleData();
   }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     setCurrentUser(user);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
 
   async function fetchSingleData() {
     try {
@@ -43,7 +30,7 @@ function SingleProduct() {
 
   const isInCart = product && cart.some((item) => item._id === product._id);
 
-  const handleProtectedAddToCart = () => {
+  const handleProtectedAddToCart = async () => {
     if (!isloggedIn) {
       navigate(
         `/login?referer=${encodeURIComponent(location.pathname)}&next=/cart`
@@ -53,16 +40,34 @@ function SingleProduct() {
 
     if (!isInCart) {
       handleAddToCart(product);
+
+      try {
+        const response = await axios.post(
+          "https://ecommerce-api-8ga2.onrender.com/api/cart/add",
+          {
+            productId: product._id,
+            quantity: 1,
+          },
+          {
+            // headers: {
+            //   Authorization: `Bearer ${token}`,
+            // },
+            withCredentials: true,
+          }
+        );
+
+        console.log("✅ Product added to backend cart:", response.data);
+      } catch (error) {
+        console.error("❌ Error adding to backend cart:", error);
+      }
     }
 
     navigate("/cart");
   };
 
-  if (!product) {
+  if (!product || !product._id) {
     return <div className="p-4 text-center">Loading product...</div>;
   }
-  // console.log(product);
-  
 
   return (
     <div className="singleProduct">
@@ -92,7 +97,6 @@ function SingleProduct() {
         </div>
       </div>
     </div>
-
   );
 }
 

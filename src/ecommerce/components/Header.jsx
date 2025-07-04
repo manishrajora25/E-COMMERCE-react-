@@ -73,7 +73,8 @@ function Header() {
     } else {
       setUser(false); 
     }
-  }, []);
+  }, [cart]);
+  console.log(cart)
 
   const handleLogout = () => {
     localStorage.removeItem("token");

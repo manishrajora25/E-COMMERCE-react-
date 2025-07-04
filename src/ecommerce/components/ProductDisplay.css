@@ -645,6 +645,9 @@ header li a[href="/cart"]:hover {
   font-weight: 600;
 }
 
+.cart_icon{
+  color: #2ecc71;
+}
 
 
 
