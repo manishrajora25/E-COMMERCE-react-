@@ -60,6 +60,8 @@ import { useContext, useEffect, useState } from "react";
 import { EcomContext } from "./UseContext";
 import { Link, useNavigate } from "react-router-dom";
 import { GrLogout } from "react-icons/gr";
+import { TbLogout2 } from "react-icons/tb";
+import { FcLike } from "react-icons/fc";
 
 function Header() {
   const { cart } = useContext(EcomContext);
@@ -68,13 +70,8 @@ function Header() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setUser(true);
-    } else {
-      setUser(false); 
-    }
+    setUser(!!token);
   }, [cart]);
-  console.log(cart)
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -82,38 +79,47 @@ function Header() {
     navigate("/login");
   };
 
+  <style>
+    .
+  </style>
+
   return (
     <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md">
       <h3 className="text-2xl font-bold text-gray-800">
         <Link to="/">Ecommerce</Link>
       </h3>
 
-      <ul className="flex items-center gap-6 text-lg text-gray-700">
+      <ul>
         <li>
-          <Link to="/cart">Cart ({cart.length})</Link>
+          <Link to="/cart">Cart <span className="cart_length">{cart.length}</span> </Link>
+          
         </li>
         <li>
-          <Link to="/wishlist">Wishlist</Link>
+          <Link to="/wishlist"><FcLike /></Link>
         </li>
         <li>
           <Link to="/about">About</Link>
         </li>
+
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
+
         {user ? (
           <li
             onClick={handleLogout}
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              color: "black",
-            }}
+            style={{cursor:"pointer" }}
+            className="logout"
+            
+            
           >
-            Logout <GrLogout />
+            Logout <GrLogout className="logout_icon"/>
           </li>
         ) : (
-          <li>
-            <Link to="/login">Login</Link>
+          <li className="logindata">
+            <Link to="/login" >
+              Login <TbLogout2  className="login"/>
+            </Link>
           </li>
         )}
       </ul>

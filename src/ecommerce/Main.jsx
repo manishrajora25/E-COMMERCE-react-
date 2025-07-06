@@ -12,6 +12,7 @@ import Login from "./pages/login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 //  const user = JSON.parse(localStorage.getItem("user"));
 //  console.log(user);
  
@@ -47,8 +48,14 @@ const router = createBrowserRouter([
 
       {
         path: "/about",
-        element: <ProtectedRoute> <About /> </ProtectedRoute> ,
+        element: <About /> ,
       },
+
+      {
+        path: "/contact",
+        element: <Contact /> ,
+      },
+
 
       {
         path: "product/:id",

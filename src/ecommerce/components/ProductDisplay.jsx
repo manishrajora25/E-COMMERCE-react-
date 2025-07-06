@@ -16,6 +16,7 @@ function ProductDisplay({ product }) {
 
   return (
     <>
+   
       <div className="product">
         
         <Link to={`/product/${product._id}`}>
